@@ -29,11 +29,13 @@ function MentionText({ text }) {
 function mediaKindFromPayload(payload) {
   const mime = String(payload?.mimetype || '').toLowerCase();
   const name = String(payload?.filename || '').toLowerCase();
-  if (mime.startsWith('audio/') || /\.(webm|ogg|mp3|m4a|wav|aac)$/i.test(name) || /^voice-note/i.test(name)) {
+  if (mime.startsWith('video/')) return 'video';
+  if (mime.startsWith('audio/') || /^voice-note/i.test(name)) {
     return 'audio';
   }
-  if (mime.startsWith('video/') || /\.(mp4|webm|mov|mkv|avi)$/i.test(name)) return 'video';
   if (mime.startsWith('image/') || /\.(png|jpe?g|gif|webp|bmp)$/i.test(name)) return 'image';
+  if (/\.(mp4|webm|mov|mkv|avi)$/i.test(name)) return 'video';
+  if (/\.(ogg|mp3|m4a|wav|aac)$/i.test(name)) return 'audio';
   return 'image';
 }
 

@@ -58,12 +58,16 @@ function isOnWifi() {
 function kindOf(attachment) {
   const mime = (attachment?.mimetype || '').toLowerCase();
   const name = (attachment?.filename || '').toLowerCase();
-  if (mime.startsWith('audio/') || /\.(webm|ogg|mp3|m4a|wav|aac)$/i.test(name) || /^voice-note/i.test(name)) {
+  if (mime.startsWith('video/')) {
+    return 'video';
+  }
+  if (mime.startsWith('audio/') || /^voice-note/i.test(name)) {
     return 'audio';
   }
   if (mime === 'image/svg+xml' || name.endsWith('.svg')) return 'file';
   if (mime.startsWith('image/') || /\.(png|jpe?g|gif|webp|bmp)$/i.test(name)) return 'image';
-  if (mime.startsWith('video/') || /\.(mp4|webm|mov|mkv|avi)$/i.test(name)) return 'video';
+  if (/\.(mp4|webm|mov|mkv|avi)$/i.test(name)) return 'video';
+  if (/\.(ogg|mp3|m4a|wav|aac)$/i.test(name)) return 'audio';
   if (mime === 'application/pdf' || name.endsWith('.pdf')) return 'pdf';
   if (
     mime.includes('word') ||
